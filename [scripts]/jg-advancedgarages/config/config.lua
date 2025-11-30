@@ -13,7 +13,7 @@ Config.Currency = "USD"
 Config.Framework = "auto" -- または "QBCore", "Qbox", "ESX"
 Config.FuelSystem = "lc_fuel" -- または "lc_fuel", "ps-fuel", "lj-fuel", "ox_fuel", "cdn-fuel", "hyon_gas_station", "okokGasStation", "nd_fuel", "myFuel", "ti_fuel", "Renewed-Fuel", "rcore_fuel", "none"
 Config.VehicleKeys = "qb-vehiclekeys" -- または "qb-vehiclekeys", "MrNewbVehicleKeys", "jaksam-vehicles-keys", "qs-vehiclekeys", "mk_vehiclekeys", "wasabi_carlock", "cd_garage", "okokGarage", "t1ger_keys", "Renewed", "tgiann-hotwire" "none"
-Config.Notifications = "auto" -- または "default", "okokNotify", "ox_lib", "ps-ui"
+Config.Notifications = "ox_lib" -- または "default", "okokNotify", "ox_lib", "ps-ui"
 Config.Banking = "Renewed-Banking" -- または "qb-banking", "qb-management", "esx_addonaccount", "Renewed-Banking", "okokBanking", "fd_banking"
 Config.Gangs = "auto" -- "qb-gangs", "rcore_gangs"
 
