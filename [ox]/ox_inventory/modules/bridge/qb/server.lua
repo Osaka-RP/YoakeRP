@@ -130,6 +130,7 @@ function server.setPlayerData(player)
         dateofbirth = player.charinfo.birthdate,
         job = player.job.name,
         gang = player.gang.name,
+        money = player.money,
     }
 end
 

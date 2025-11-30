@@ -25,6 +25,7 @@ RegisterNetEvent('esx:onPlayerLogout', client.onLogout)
 AddEventHandler('esx:setPlayerData', function(key, value)
 	if not PlayerData.loaded or GetInvokingResource() ~= 'es_extended' then return end
 
+	if key == 'accounts' then return end
 	if key == 'job' then
 		key = 'groups'
 		value = { [value.name] = value.grade }
@@ -38,7 +39,7 @@ local Weapon = require 'modules.weapon.client'
 
 RegisterNetEvent('esx_policejob:handcuff', function()
 	PlayerData.cuffed = not PlayerData.cuffed
-	LocalPlayer.state:set('invBusy', PlayerData.cuffed, false)
+	LocalPlayer.state:set('invBusy', PlayerData.cuffed, true)
 
 	if not PlayerData.cuffed then return end
 
@@ -47,5 +48,10 @@ end)
 
 RegisterNetEvent('esx_policejob:unrestrain', function()
 	PlayerData.cuffed = false
-	LocalPlayer.state:set('invBusy', PlayerData.cuffed, false)
+	LocalPlayer.state:set('invBusy', PlayerData.cuffed, true)
+end)
+
+RegisterNetEvent('esx:setAccountMoney', function(account)
+	PlayerData.money[account.name] = account.money
+	SendNUIMessage({ action = 'onMoneyChange', data = PlayerData.money })
 end)
