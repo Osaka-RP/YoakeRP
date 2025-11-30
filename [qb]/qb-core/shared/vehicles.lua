@@ -763,6 +763,14 @@ local Vehicles = {
     { model = 'openwheel1',      name = 'BR8',                           brand = 'Benefactor',      price = 100000,  category = 'openwheel',      type = 'automobile', shop = 'none' },
     { model = 'formula2',        name = 'R88',                           brand = 'Ocelot',          price = 100000,  category = 'openwheel',      type = 'automobile', shop = 'none' },
     { model = 'formula',         name = 'PR4',                           brand = 'Progen',          price = 100000,  category = 'openwheel',      type = 'automobile', shop = 'none' },
+    --addon
+    { model = 'f812', name = '812 Superfast', brand = 'Ferrari', price = 0, category = 'sports', type = 'automobile', shop = 'none' },
+    { model = 'polbuffwb', name = 'Police Buffalo STX', brand = 'Police', price = 0, category = 'emergency', type = 'automobile', shop = 'none' },
+    { model = 'polrevent', name = 'Police Reventon', brand = 'Police', price = 0, category = 'emergency', type = 'automobile', shop = 'none' },
+    { model = 'adlc500', name = 'Lexus LC500', brand = 'Lexus', price = 0, category = 'sports', type = 'automobile', shop = 'none' },
+    { model = 'al18', name = 'Toyota Alphard', brand = 'Toyota', price = 0, category = 'Vans', type = 'automobile', shop = 'none' },
+
+    
 }
 
 QBShared.VehicleHashes = QBShared.VehicleHashes or {}
