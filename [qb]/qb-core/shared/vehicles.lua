@@ -769,8 +769,9 @@ local Vehicles = {
     { model = 'polrevent', name = 'Police Reventon', brand = 'Police', price = 0, category = 'emergency', type = 'automobile', shop = 'none' },
     { model = 'adlc500', name = 'Lexus LC500', brand = 'Lexus', price = 0, category = 'sports', type = 'automobile', shop = 'none' },
     { model = 'al18', name = 'Toyota Alphard', brand = 'Toyota', price = 0, category = 'Vans', type = 'automobile', shop = 'none' },
-
-    
+    { model = 'nbmazda3', name = 'Mazda3 FastBack', brand = 'Mazda', price = 0, category = 'sports', type = 'automobile', shop = 'none' },
+    { model = 'priustaxi', name = 'Toyota Prius Taxi', brand = 'Toyota', price = 0, category = 'service', type = 'automobile', shop = 'none' },
+    { model = 'trans_teslams', name = 'Tesla Model S Taxi', brand = 'Tesla', price = 0, category = 'service', type = 'automobile', shop = 'none' },
 }
 
 QBShared.VehicleHashes = QBShared.VehicleHashes or {}
