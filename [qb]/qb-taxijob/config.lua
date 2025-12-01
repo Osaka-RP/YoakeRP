@@ -14,10 +14,14 @@ Config = {
             model = 'taxi',
             label = Lang:t('info.taxi_label_1')
         },
+        [2] = {
+            model = 'al18',
+            label = Lang:t('Toyota Alphard')
+        },
     },
 
     Meter = {
-        ['defaultPrice'] = 1000.0, -- price per mile
+        ['defaultPrice'] = 10000.0, -- price per mile
         ['startingPrice'] = 0     -- static starting price
     },
 
@@ -26,7 +30,7 @@ Config = {
 
     Duty = vector3(894.88, -179.22, 74.7),
 
-    Rewards = 'cryptostick',
+    --Rewards = 'cryptostick',
     
     Advanced = {
         Bonus = {
