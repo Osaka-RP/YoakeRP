@@ -32,10 +32,18 @@ RegisterNetEvent('qb-taxi:server:NpcPay', function(payment, hasReceivedBonus)
             end
 
             if Config.Management then
-                exports['qb-banking']:AddMoney('taxi', payment, 'Customer payment')
-            else
+            local half = math.floor(payment / 2)
+
+            -- 会社の社内口座に50%
+                exports['Renewed-Banking']:addAccountMoney('taxi', half, 'Customer payment (50%)')
+
+            -- プレイヤーの銀行に50%
+                Player.Functions.AddMoney('bank', half, 'Taxi payout (50%)')
+            else    
+            -- Management = false のときは今まで通りプレイヤーに全額
                 Player.Functions.AddMoney('cash', payment, 'Taxi payout')
             end
+
 
             local chance = math.random(1, 100)
             if chance < 26 then

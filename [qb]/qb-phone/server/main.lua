@@ -310,7 +310,7 @@ QBCore.Functions.CreateCallback('qb-phone:server:PayInvoice', function(source, c
                     exports['qb-phone']:sendNewMailToOffline(sendercitizenid, invoiceMailData)
                 end
                 TriggerEvent("qb-phone:server:paidInvoice", source, invoiceId)
-                exports['qb-banking']:AddMoney(society, amount, 'Phone invoice')
+                exports['Renewed-Banking']:addAccountMoney(society, amount, 'Phone invoice')
                 cb(true)
                 return
             end
