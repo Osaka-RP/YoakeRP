@@ -1,10 +1,10 @@
 if not Lang then Lang = {} end
 Lang['ja'] = {
     ['markers'] = {
-        ['open_refuel'] = "～INPUT_CONTEXT～を押して燃料を補給します",
-        ['open_recharge'] = "～INPUT_CONTEXT～を押して充電",
-        ['interact_with_vehicle'] = "～y～E～w～を押して車両と操作",
-        ['return_nozzle'] = "～INPUT_CONTEXT～を押してノズルを戻す",
+        ['open_refuel'] = "~INPUT_CONTEXT~を押して燃料を補給します",
+        ['open_recharge'] = "~INPUT_CONTEXT~を押して充電",
+        ['interact_with_vehicle'] = "~y~E~w~を押して車両と操作",
+        ['return_nozzle'] = "~INPUT_CONTEXT~を押してノズルを戻す",
     },
     ['target'] = {
         ['open_refuel'] = "燃料補給メニューを開く",

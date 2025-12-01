@@ -23,7 +23,7 @@ Config.FuelConsumptionChart = {
 -- JerryCan settings
 Config.JerryCan = {
     enabled = true,				-- Enable/disable jerry cans purchase
-    price = 300,				-- Price to purchase it
+    price = 3000,				-- Price to purchase it
     requiredStock = 10,			-- Amount of stock required in gas station to provide a jerry can
     item = "weapon_petrolcan",	-- Jerry can inventory item
     giveAsWeapon = true,		-- true: Give jerry can as weapon | false: Give jerry can as item
@@ -46,10 +46,10 @@ Config.JobDiscounts = {
 Config.DefaultValues = {
     -- Default price for each type
     fuelPrice = {
-        regular = 1.55,
-        plus = 1.69,
-        premium = 1.98,
-        diesel = 1.49,
+        regular = 150,
+        plus = 160,
+        premium = 170,
+        diesel = 160,
     },
     -- Set if the pump will have stock of each fuel type or not when not owned
     fuelStock = {
@@ -477,12 +477,12 @@ Config.Electric = {
     -- Fast / Normal types
     chargeTypes = {
         fast = {
-            price = 2.5,				-- Price per 1% recharged
+            price = 20,				-- Price per 1% recharged
             time = 0.8,					-- Time in seconds to recharge 0.5% of battery in the vehicle (lower values means faster refuel)
             stock = true				-- Set if the charger will have stock when not owned 
         },
         normal = {
-            price = 1.8,
+            price = 10,
             time = 2,
             stock = true
         }
