@@ -2,7 +2,7 @@ Config = {
 
     jobRequired = 'taxi',
 
-    Management = false, -- if true, the money gained from the trips, will go to the boss menu funds
+    Management = true, -- if true, the money gained from the trips, will go to the boss menu funds
 
     -- set this to false if you want to use distance checks
     UseTarget = GetConvar('UseTarget', 'false') == 'true',
@@ -17,7 +17,7 @@ Config = {
     },
 
     Meter = {
-        ['defaultPrice'] = 125.0, -- price per mile
+        ['defaultPrice'] = 1000.0, -- price per mile
         ['startingPrice'] = 0     -- static starting price
     },
 
@@ -40,8 +40,8 @@ Config = {
             Grateful = 'GENERIC_THANKS',
             Happy = 'GENERIC_HAPPY'
         },
-        MinCabHealth = 750,     -- min vehicle health before mission stops
-        MaxCrashesAllowed = 5,  -- amount of crashes before mission stops
+        MinCabHealth = 500,     -- min vehicle health before mission stops
+        MaxCrashesAllowed = 10,  -- amount of crashes before mission stops
     },
 
     NPCLocations = {

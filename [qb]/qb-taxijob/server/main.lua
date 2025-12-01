@@ -32,17 +32,45 @@ RegisterNetEvent('qb-taxi:server:NpcPay', function(payment, hasReceivedBonus)
             end
 
             if Config.Management then
-            local half = math.floor(payment / 2)
+                local half   = math.floor(payment / 2)
+                local src    = source
+                local cid    = Player.PlayerData.citizenid
+                local pname  = GetPlayerName(src) or (Player.PlayerData.charinfo and (Player.PlayerData.charinfo.firstname .. ' ' .. Player.PlayerData.charinfo.lastname)) or ('Player '..tostring(src))
 
-            -- 会社の社内口座に50%
-                exports['Renewed-Banking']:addAccountMoney('taxi', half, 'Customer payment (50%)')
+                -- ① 会社口座に50% 入金
+                    exports['Renewed-Banking']:addAccountMoney('taxi', half, 'Customer payment (50%)')
 
-            -- プレイヤーの銀行に50%
-                Player.Functions.AddMoney('bank', half, 'Taxi payout (50%)')
-            else    
-            -- Management = false のときは今まで通りプレイヤーに全額
-                Player.Functions.AddMoney('cash', payment, 'Taxi payout')
+                -- 会社口座の取引明細を記録
+                -- account: 'taxi'（社会口座キー） / title: 任意 / amount: 金額 / message: メモ
+                -- issuer/receiver/type は運用に合わせてOK（ここでは会社⇄プレイヤーの体で記録）
+                    exports['Renewed-Banking']:handleTransaction(
+                        'taxi',
+                        'Taxi Company',
+                        half,
+                    ('Fare from %s (%s)'):format(pname, cid),
+                    'taxi',         -- issuer
+                    cid,            -- receiver（citizenid）
+                    'deposit'       -- type: 'deposit' or 'withdraw'
+                )
+
+                -- ② プレイヤーの銀行に50% 入金
+                    Player.Functions.AddMoney('bank', half, 'Taxi payout (50%)')
+
+                -- プレイヤー口座の取引明細を記録（個人口座は citizenid をアカウント指定に使う）
+                    exports['Renewed-Banking']:handleTransaction(
+                        cid,
+                        ('Personal Account / %s'):format(cid),
+                       half,
+                        'Taxi payout (50%)',
+                        'taxi',         -- issuer（会社）
+                        cid,            -- receiver（本人）
+                        'deposit'
+                )
+            else
+                -- Management=false は従来通り
+                    Player.Functions.AddMoney('cash', payment, 'Taxi payout')
             end
+
 
 
             local chance = math.random(1, 100)
