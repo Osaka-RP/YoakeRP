@@ -15,8 +15,12 @@ Config = {
             label = Lang:t('info.taxi_label_1')
         },
         [2] = {
-            model = 'al18',
-            label = Lang:t('Toyota Alphard')
+            model = 'priustaxi',
+            label = Lang:t('Toyota Prius Taxi')
+        },
+        [3] = {
+            model ='trans_teslams',
+            label = Lang:t('Tesla Model S Taxi')
         },
     },
 
