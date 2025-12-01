@@ -166,11 +166,11 @@ RegisterNetEvent('QBCore:Client:EnteredVehicle', function()
                         end
                     end
                     damageDone = true
-                    SetVehicleEngineOn(currVehicle, false, true, true)
+                    --SetVehicleEngineOn(currVehicle, false, true, true)
                 end
                 if currVehBodyHealth < 350.0 and not damageDone then
                     damageDone = true
-                    SetVehicleEngineOn(currVehicle, false, true, true)
+                    --SetVehicleEngineOn(currVehicle, false, true, true)
                     Wait(1000)
                 end
             end
@@ -214,7 +214,7 @@ RegisterNetEvent('QBCore:Client:EnteredVehicle', function()
                 newVehBodyHealth = GetVehicleBodyHealth(lastVeh)
                 if not damageDone and newVehBodyHealth < currVehBodyHealth then
                     damageDone = true
-                    SetVehicleEngineOn(lastVeh, false, true, true)
+                    --SetVehicleEngineOn(lastVeh, false, true, true)
                     Wait(1000)
                 end
                 lastVeh = nil
