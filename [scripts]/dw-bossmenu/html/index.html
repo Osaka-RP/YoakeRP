@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DaniWorld ボスメニュー</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+</head>
+
+<body>
+  <div class="application-container" id="application-container" style="display:none;">
+    <!-- Header section -->
+    <div class="application-header">
+      <div class="police-emblem"></div>
+      <h2 class="application-title">警察 応募フォーム</h2>
+      <p class="application-subtitle">Policeチームに参加しよう</p>
+    </div>
+
+    <!-- Progress bar -->
+    <div class="progress-container">
+      <div class="progress-bar"></div>
+    </div>
+
+    <!-- Form content -->
+    <div class="application-content">
+      <div class="intro-text">
+        <p>Police への参加に関心をお寄せいただきありがとうございます。すべての項目を正確にご記入ください。</p>
+        <p>必須項目は <span class="required-label"></span> で示されています。</p>
+      </div>
+
+      <div class="application-question" id="application-question">
+        なぜ警察に入りたいのですか？<span class="application-question-required" id="application-question-required"></span>
+      </div>
+
+      <textarea class="application-input" id="application-input_text" placeholder="ここに回答を入力…"></textarea>
+      <input type="number" id="application-input_number" placeholder="数値を入力">
+      <select id="application-input_select">
+        <option>選択してください</option>
+      </select>
+
+      <div class="badge-watermark"></div>
+    </div>
+
+    <!-- Buttons section -->
+    <div class="application-buttons">
+      <button class="btn-cancel" id="cancel_app">キャンセル</button>
+      <button class="btn-next" id="finish_task">送信</button>
+    </div>
+  </div>
+
+  <div id="container" class="container" style="display:none;">
+    <!-- Sidebar Navigation -->
+    <div class="sidebar">
+      <div class="sidebar-logo">DW</div>
+      <a class="nav-item active" data-page="dashboard">
+        <i class="fas fa-tachometer-alt"></i><span>ダッシュボード</span>
+      </a>
+      <a class="nav-item" data-page="employees">
+        <i class="fas fa-users"></i><span>従業員</span>
+      </a>
+      <a class="nav-item" data-page="society">
+        <i class="fas fa-coins"></i><span>社内資金</span>
+      </a>
+      <a class="nav-item" data-page="permissions">
+        <i class="fas fa-key"></i><span>権限</span>
+      </a>
+      <a class="nav-item" data-page="settings">
+        <i class="fas fa-cog"></i><span>設定</span>
+      </a>
+      <a class="nav-item" style="margin-top:auto;" id="close-ui">
+        <i class="fas fa-sign-out-alt"></i><span>閉じる</span>
+      </a>
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="content">
+      <!-- Dashboard Page -->
+      <div class="page active" id="dashboard-page">
+        <header>
+          <div class="header-title">
+            <h1 id="department-title">ダッシュボード</h1>
+            <p id="employees-count">管理対象: 0人</p>
+          </div>
+          <div class="header-actions">
+            <button class="btn btn-outline" id="refresh-data-btn">
+              <i class="fas fa-sync-alt"></i> データ更新
+            </button>
+          </div>
+        </header>
+
+        <div class="dashboard-grid">
+          <div class="stat-card">
+            <div class="stat-card-title">総従業員数</div>
+            <div class="stat-card-value" id="total-employees">0</div>
+            <div class="stat-card-trend">
+              <i class="fas fa-users"></i> 現在オンライン <span id="status-online">0</span> 人
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card-title">平均稼働時間</div>
+            <div class="stat-card-value" id="avg-hours">0</div>
+            <div class="stat-card-trend">
+              <i class="fas fa-clock"></i> 週あたりの平均時間
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card-title">最高ランク</div>
+            <div class="stat-card-value" id="highest-grade">-</div>
+            <div class="stat-card-trend">
+              <i class="fas fa-star"></i> <span id="highest-grade-count">0</span> 名
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card-title">最も多いランク</div>
+            <div class="stat-card-value" id="common-grade">-</div>
+            <div class="stat-card-trend">
+              <i class="fas fa-user-friends"></i> <span id="common-grade-count">0</span> 名
+            </div>
+          </div>
+        </div>
+
+        <div class="charts-row">
+          <div class="chart-container">
+            <div class="chart-header">
+              <div class="chart-title">活動状況（時間別）</div>
+              <div class="chart-actions">
+                <div class="chart-action" id="download-activity"><i class="fas fa-download"></i></div>
+                <div class="chart-action" id="expand-activity"><i class="fas fa-expand"></i></div>
+              </div>
+            </div>
+            <div class="activity-chart" id="activity-chart"></div>
+          </div>
+          <div class="chart-container">
+            <div class="chart-header">
+              <div class="chart-title">オンライン従業員</div>
+              <div class="chart-actions">
+                <div class="chart-action" id="refresh-online"><i class="fas fa-sync-alt"></i></div>
+              </div>
+            </div>
+            <div class="employee-list" id="online-employees">
+              <div class="empty-list">現在オンラインの従業員はいません</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="table-container">
+          <div class="table-header">
+            <div class="table-title">従業員一覧</div>
+            <div class="table-actions">
+              <input type="text" id="search-employee" placeholder="従業員を検索…">
+            </div>
+          </div>
+          <table width="100%">
+            <thead>
+              <tr>
+                <th>名前</th>
+                <th>ランク</th>
+                <th>状態</th>
+                <th class="location-column">位置</th>
+                <th class="playtime-column">プレイ時間</th>
+                <th>操作</th>
+              </tr>
+            </thead>
+            <tbody id="employees-table">
+              <tr><td colspan="6" class="empty-table">読み込み中…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Employees Page -->
+      <div class="page" id="employees-page">
+        <header>
+          <div class="header-title">
+            <h1>従業員管理</h1>
+            <p id="employees-management-count">管理対象: 0人</p>
+          </div>
+          <div class="header-actions">
+            <button class="btn btn-primary" id="hire-employee-btn">
+              <i class="fas fa-user-plus"></i> 採用する
+            </button>
+          </div>
+        </header>
+
+        <div class="employee-management">
+          <div class="tabs">
+            <div class="tab active" data-filter="all">すべて</div>
+            <div class="tab" data-filter="online">オンライン</div>
+            <div class="tab" data-filter="offline">オフライン</div>
+            <div class="tab" data-filter="management">管理職</div>
+          </div>
+
+          <input type="text" id="search-management-employee" placeholder="従業員を検索…">
+
+          <div class="table-container">
+            <table width="100%">
+              <thead>
+                <tr>
+                  <th>名前</th>
+                  <th>ランク</th>
+                  <th>状態</th>
+                  <th class="playtime-column">プレイ時間</th>
+                  <th>操作</th>
+                </tr>
+              </thead>
+              <tbody id="management-employees-table">
+                <tr><td colspan="5" class="empty-table">読み込み中…</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Society Page -->
+      <div class="page" id="society-page">
+        <header>
+          <div class="header-title">
+            <h1><i class="fas fa-coins"></i> 社内資金 管理</h1>
+            <p>組織の財務を安全かつ効率的に管理します</p>
+          </div>
+          <div class="header-actions">
+            <button class="btn btn-outline" id="refresh-society-btn">
+              <i class="fas fa-sync-alt"></i> データ更新
+            </button>
+          </div>
+        </header>
+
+        <div class="dashboard-grid">
+          <div class="stat-card society-balance-card">
+            <div class="stat-card-title">社内口座残高</div>
+            <div class="stat-card-value" id="society-balance">¥0</div>
+            <div class="stat-card-trend">
+              <i class="fas fa-wallet"></i> <span id="society-name">読み込み中…</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card-title">最新の取引</div>
+            <div class="stat-card-value" id="last-transaction-amount">¥0</div>
+            <div class="stat-card-trend">
+              <i class="fas fa-clock"></i> <span id="last-transaction-time">最近の取引はありません</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card-title">本日の活動</div>
+            <div class="stat-card-value" id="today-transactions">0</div>
+            <div class="stat-card-trend">
+              <i class="fas fa-exchange-alt"></i> <span id="today-transactions-amount">¥0</span> 合計
+            </div>
+          </div>
+        </div>
+
+        <div class="society-actions-container">
+          <div class="chart-container society-chart-container">
+            <div class="chart-header">
+              <div class="chart-title">取引アクティビティ</div>
+              <div class="chart-actions">
+                <div class="dropdown">
+                  <button id="timeframe-selector" class="dropdown-btn">
+                    <span>直近7日</span><i class="fas fa-chevron-down"></i>
+                  </button>
+                  <div id="timeframe-dropdown" class="dropdown-content">
+                    <a href="#" data-timeframe="day">今日</a>
+                    <a href="#" data-timeframe="week">直近7日</a>
+                    <a href="#" data-timeframe="month">直近30日</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div id="transactions-chart" class="transactions-chart"></div>
+          </div>
+
+          <div class="society-actions-row">
+            <div class="society-action-card">
+              <div class="society-card-title"><i class="fas fa-arrow-circle-up"></i> 入金</div>
+              <div class="form-group">
+                <label for="deposit-amount">入金額</label>
+                <input type="number" id="deposit-amount" min="1" placeholder="金額を入力">
+              </div>
+              <button class="btn btn-primary" id="deposit-btn">
+                <i class="fas fa-arrow-circle-up"></i> 入金する
+              </button>
+            </div>
+
+            <div class="society-action-card">
+              <div class="society-card-title"><i class="fas fa-arrow-circle-down"></i> 出金</div>
+              <div class="form-group">
+                <label for="withdraw-amount">出金額</label>
+                <input type="number" id="withdraw-amount" min="1" placeholder="金額を入力">
+              </div>
+              <button class="btn btn-primary" id="withdraw-btn">
+                <i class="fas fa-arrow-circle-down"></i> 出金する
+              </button>
+            </div>
+
+            <div class="society-action-card">
+              <div class="society-card-title"><i class="fas fa-exchange-alt"></i> 従業員へ送金</div>
+              <div class="form-group">
+                <label for="transfer-employee">従業員を選択</label>
+                <select id="transfer-employee">
+                  <option value="">従業員を選択</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="transfer-amount">送金額</label>
+                <input type="number" id="transfer-amount" min="1" placeholder="金額を入力">
+              </div>
+              <button class="btn btn-primary" id="transfer-btn">
+                <i class="fas fa-exchange-alt"></i> 送金する
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="table-container">
+          <div class="table-header">
+            <div class="table-title"><i class="fas fa-history"></i> 取引履歴</div>
+            <div class="table-actions">
+              <input type="text" id="search-transaction" placeholder="取引を検索…">
+            </div>
+          </div>
+          <table width="100%">
+            <thead>
+              <tr>
+                <th>日時</th>
+                <th>種別</th>
+                <th>金額</th>
+                <th>従業員</th>
+                <th>メモ</th>
+              </tr>
+            </thead>
+            <tbody id="transactions-table">
+              <tr><td colspan="5" class="empty-table">取引履歴を読み込み中…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Permissions Page -->
+      <div class="page" id="permissions-page">
+        <header>
+          <div class="header-title">
+            <h1><i class="fas fa-key"></i> 従業員の権限</h1>
+            <p>従業員ごとのアクセス権を設定</p>
+          </div>
+          <div class="header-actions">
+            <button class="btn btn-outline" id="refresh-permissions-btn">
+              <i class="fas fa-sync-alt"></i> 権限を更新
+            </button>
+          </div>
+        </header>
+
+        <div class="permissions-container">
+          <div class="permissions-selection">
+            <div class="form-group">
+              <label for="permissions-employee-select">従業員を選択</label>
+              <select id="permissions-employee-select" class="permissions-select">
+                <option value="">-- 従業員を選択 --</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="permissions-content" id="permissions-content" style="display:none;">
+            <div class="permissions-card">
+              <div class="permissions-title">アクセス権</div>
+              <p class="permissions-description">この従業員がアクセスできる機能を選択</p>
+
+              <div class="toggle-container">
+                <p>ダッシュボード</p>
+                <label class="toggle"><input type="checkbox" id="perm-dashboard"><span class="toggle-slider"></span></label>
+              </div>
+
+              <div class="toggle-container">
+                <p>従業員管理</p>
+                <label class="toggle"><input type="checkbox" id="perm-employees"><span class="toggle-slider"></span></label>
+              </div>
+
+              <div class="toggle-container">
+                <p>社内資金</p>
+                <label class="toggle"><input type="checkbox" id="perm-society"><span class="toggle-slider"></span></label>
+              </div>
+
+              <div class="toggle-container">
+                <p>応募審査</p>
+                <label class="toggle"><input type="checkbox" id="perm-applications"><span class="toggle-slider"></span></label>
+              </div>
+
+              <div class="toggle-container">
+                <p>採用・解雇</p>
+                <label class="toggle"><input type="checkbox" id="perm-hiringfiring"><span class="toggle-slider"></span></label>
+              </div>
+            </div>
+
+            <div class="save-permissions-container">
+              <button class="btn btn-primary" id="save-permissions-btn">
+                <i class="fas fa-save"></i> 変更を保存
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Permission Confirmation Modal -->
+      <div class="modal" id="permissions-confirm-modal">
+        <div class="modal-content">
+          <div class="modal-header">
+            <div class="modal-title"><i class="fas fa-key"></i> 権限の変更を確認</div>
+            <div class="modal-close">&times;</div>
+          </div>
+          <div class="modal-body">
+            <p><span id="confirm-permissions-employee" class="employee-name">従業員名</span> の権限を変更します。</p>
+            <div class="permission-summary" id="permission-summary"></div>
+            <div class="warning-box">
+              <i class="fas fa-exclamation-circle"></i>
+              <div><strong>注意:</strong> 権限付与により、ジョブ管理の重要機能へアクセスできるようになります。慎重に選択してください。</div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-outline modal-close-btn">キャンセル</button>
+            <button class="btn btn-primary" id="confirm-permissions-btn">
+              <i class="fas fa-check-circle"></i> 確認
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Applications Page -->
+      <div class="page" id="applications-page">
+        <header>
+          <div class="header-title">
+            <h1>応募一覧</h1>
+            <p id="applications-count">保留中: 0件</p>
+          </div>
+          <div class="header-actions">
+            <button class="btn btn-outline" id="refresh-applications-btn">
+              <i class="fas fa-sync-alt"></i> 応募を更新
+            </button>
+          </div>
+        </header>
+
+        <div class="applications-container">
+          <div class="tabs">
+            <div class="tab active" data-filter="all">すべて</div>
+            <div class="tab" data-filter="pending">保留</div>
+            <div class="tab" data-filter="accepted">承認</div>
+            <div class="tab" data-filter="rejected">却下</div>
+            <div class="tab" data-filter="finish">完了</div>
+          </div>
+
+          <input type="text" id="search-application" placeholder="応募を検索…">
+
+          <div class="table-container">
+            <table width="100%">
+              <thead>
+                <tr>
+                  <th>名前</th>
+                  <th>提出日</th>
+                  <th>状態</th>
+                  <th>操作</th>
+                </tr>
+              </thead>
+              <tbody id="applications-table">
+                <tr><td colspan="4" class="empty-table">表示できる応募はありません</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Application Details Modal -->
+      <div class="modal" id="application-details-modal">
+        <div class="modal-content application-details-content">
+          <div class="modal-header application-header">
+            <div class="modal-title"><i class="fas fa-file-alt"></i> 応募詳細</div>
+            <div class="modal-close">&times;</div>
+          </div>
+          <div class="modal-body application-body">
+            <div class="applicant-card">
+              <div class="applicant-info">
+                <div class="applicant-name-container">
+                  <i class="fas fa-user"></i>
+                  <h3 id="applicant-name">John Doe</h3>
+                </div>
+                <div class="applicant-meta">
+                  <div class="meta-item">
+                    <i class="fas fa-calendar-alt"></i>
+                    <p id="application-date">提出日: 2025/12/03</p>
+                  </div>
+                  <div class="meta-item">
+                    <i class="fas fa-info-circle"></i>
+                    <p id="application-status" class="status-badge">状態: 保留</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <h4 class="section-title">回答内容</h4>
+            <div class="application-responses" id="application-responses-container"></div>
+
+            <h4 class="section-title">審査メモ</h4>
+            <div class="form-group">
+              <textarea id="application-notes" placeholder="この応募に関するメモを追加"></textarea>
+            </div>
+          </div>
+          <div class="modal-footer application-footer">
+            <button class="btn btn-danger" id="reject-application-btn">
+              <i class="fas fa-times-circle"></i> 却下
+            </button>
+            <button class="btn btn-outline modal-close-btn">
+              <i class="fas fa-times"></i> 閉じる
+            </button>
+            <button class="btn btn-primary" id="accept-application-btn">
+              <i class="fas fa-check-circle"></i> 承認
+            </button>
+            <button class="btn btn-success" id="finish-application-btn">
+              <i class="fas fa-flag-checkered"></i> 完了
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Settings Page -->
+      <div class="page" id="settings-page">
+        <header>
+          <div class="header-title">
+            <h1>システム設定</h1>
+            <p>管理画面をカスタマイズ</p>
+          </div>
+          <div class="header-actions">
+            <button class="btn btn-outline" id="reset-settings-btn">
+              <i class="fas fa-undo"></i> リセット
+            </button>
+            <button class="btn btn-primary" id="save-settings-btn">
+              <i class="fas fa-save"></i> 保存
+            </button>
+          </div>
+        </header>
+
+        <div class="settings-container">
+          <div class="settings-card">
+            <div class="settings-title">見た目</div>
+
+            <div class="toggle-container">
+              <p>ダークモード</p>
+              <label class="toggle"><input type="checkbox" id="darkMode" checked><span class="toggle-slider"></span></label>
+            </div>
+
+            <div class="toggle-container">
+              <p>アニメーションを表示</p>
+              <label class="toggle"><input type="checkbox" id="showAnimations" checked><span class="toggle-slider"></span></label>
+            </div>
+
+            <div class="toggle-container">
+              <p>コンパクト表示</p>
+              <label class="toggle"><input type="checkbox" id="compactView"><span class="toggle-slider"></span></label>
+            </div>
+
+            <div class="color-picker">
+              <label>テーマカラー</label>
+              <div class="color-options">
+                <div class="color-option color-blue active" data-color="blue"></div>
+                <div class="color-option color-purple" data-color="purple"></div>
+                <div class="color-option color-green" data-color="green"></div>
+                <div class="color-option color-red" data-color="red"></div>
+                <div class="color-option color-orange" data-color="orange"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="settings-card">
+            <div class="settings-title">表示</div>
+
+            <div class="toggle-container">
+              <p>プレイ時間を表示</p>
+              <label class="toggle"><input type="checkbox" id="showPlaytime" checked><span class="toggle-slider"></span></label>
+            </div>
+
+            <div class="toggle-container">
+              <p>位置情報を表示</p>
+              <label class="toggle"><input type="checkbox" id="showLocation" checked><span class="toggle-slider"></span></label>
+            </div>
+
+            <div class="form-group">
+              <label for="refreshInterval">更新間隔（秒）</label>
+              <input type="number" id="refreshInterval" min="30" max="300" value="60">
+            </div>
+
+            <div class="form-group">
+              <label for="notificationSound">通知音</label>
+              <select id="notificationSound">
+                <option value="none">なし</option>
+                <option value="default" selected>デフォルト</option>
+                <option value="alert">アラート</option>
+                <option value="chime">チャイム</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div> <!-- /settings-page -->
+    </div> <!-- /content -->
+  </div> <!-- /container -->
+
+  <!-- Transfer Confirm Modal -->
+  <div class="modal" id="transfer-confirm-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="modal-title"><i class="fas fa-exchange-alt"></i> 送金の確認</div>
+        <div class="modal-close">&times;</div>
+      </div>
+      <div class="modal-body">
+        <p><strong><span id="confirm-transfer-employee">従業員名</span></strong> に
+          <span id="confirm-transfer-amount" class="transaction-amount negative">¥0</span> を送金します。</p>
+        <div class="form-group">
+          <label for="transfer-note">メモ（任意）</label>
+          <textarea id="transfer-note" placeholder="この取引のメモを入力"></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline modal-close-btn">キャンセル</button>
+        <button class="btn btn-primary" id="confirm-transfer-btn">
+          <i class="fas fa-check-circle"></i> 確認
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Deposit/Withdraw Confirmation Modal -->
+  <div class="modal" id="money-action-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="modal-title" id="money-action-title">操作の確認</div>
+        <div class="modal-close">&times;</div>
+      </div>
+      <div class="modal-body">
+        <p id="money-action-message">この取引を実行してよろしいですか？</p>
+        <div class="form-group">
+          <label for="money-action-note">メモ（任意）</label>
+          <textarea id="money-action-note" placeholder="この取引のメモを入力"></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline modal-close-btn">キャンセル</button>
+        <button class="btn btn-primary" id="confirm-money-action-btn">
+          <i class="fas fa-check-circle"></i> 実行
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit Employee Modal -->
+  <div class="modal" id="edit-employee-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="modal-title">従業員の編集</div>
+        <div class="modal-close">&times;</div>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="edit-name">氏名</label>
+          <input type="text" id="edit-name" readonly>
+          <input type="hidden" id="edit-citizenid">
+        </div>
+        <div class="form-group">
+          <label for="edit-rank">ランク</label>
+          <select id="edit-rank"></select>
+        </div>
+        <div class="form-group">
+          <label for="edit-note">メモ</label>
+          <textarea id="edit-note" placeholder="従業員に関するメモ"></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-danger" id="fire-employee-btn">解雇</button>
+        <button class="btn btn-outline modal-close-btn">キャンセル</button>
+        <button class="btn btn-primary" id="save-employee-btn">保存</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Notification -->
+  <div class="notification" id="notification">設定を保存しました！</div>
+
+  <!-- Custom Fire Menu -->
+  <div id="custom-fire-menu" class="qb-fire-menu-container" style="display:none;">
+    <div class="qb-fire-menu-header">従業員の解雇</div>
+    <div class="qb-fire-menu-message" id="fire-message">この従業員を解雇します。よろしいですか？</div>
+    <div class="qb-fire-menu-buttons">
+      <div class="qb-fire-menu-button cancel" id="fire-cancel-btn">キャンセル</div>
+      <div class="qb-fire-menu-button confirm" id="fire-confirm-btn">解雇する</div>
+    </div>
+  </div>
+
+  <!-- Hire Employee Modal -->
+  <div class="modal" id="hire-employee-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="modal-title"><i class="fas fa-user-plus"></i> 新規採用</div>
+        <div class="modal-close">&times;</div>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="hire-id">プレイヤーID</label>
+          <input type="number" id="hire-id" placeholder="プレイヤーIDを入力" min="1">
+        </div>
+        <div class="form-group">
+          <label for="hire-rank">ランク</label>
+          <select id="hire-rank"></select>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline modal-close-btn">キャンセル</button>
+        <button class="btn btn-primary" id="confirm-hire-btn">
+          <i class="fas fa-check-circle"></i> 採用する
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <link rel="stylesheet" href="fire-menu.css">
+  <script src="script.js"></script>
+</body>
+</html>
