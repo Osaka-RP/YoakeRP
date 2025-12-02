@@ -111,7 +111,8 @@ Config.VehiclesData = {
         { name = 'polrevent', label = 'Police Reventon', model = '', price = 0, stock = 1, img = '', category = 'sports', discount = 0, information = {TopSpeed = 215, Braking = 88, Acceleration = 80, Suspension = 84, Handling = 82} },
         { name = 'adlc500', label = 'Lexus LC500', model = '', price = 15000000, stock = 1, img = '', category = 'sports', discount = 0, information = {TopSpeed = 215, Braking = 88, Acceleration = 80, Suspension = 84, Handling = 82} },
         { name = 'al18', label = 'Toyota Alphard', model = '', price = 7000000, stock = 1, img = '', category = 'all', discount = 0, information = {TopSpeed = 215, Braking = 88, Acceleration = 80, Suspension = 84, Handling = 82} },
-        { name = 'nbmazda3', label = 'Mazda3 FastBack', model = '', price = 2500000, stock = 1, img = '', category = 'sports', discount = 0, information = {TopSpeed = 215, Braking = 88, Acceleration = 80, Suspension = 84, Handling = 82} }
+        { name = 'nbmazda3', label = 'Mazda3 FastBack', model = '', price = 2500000, stock = 1, img = '', category = 'sports', discount = 0, information = {TopSpeed = 215, Braking = 88, Acceleration = 80, Suspension = 84, Handling = 82} },
+        { name = 'gr86', label = 'Toyota GR86', model = '', price = 4500000, stock = 1, img = '', category = 'sports', discount = 0, information = {TopSpeed = 215, Braking = 88, Acceleration = 80, Suspension = 84, Handling = 82} }
     },
 
     ['boat'] = {
