@@ -3,7 +3,7 @@ local housePlants, currentHouse, plantSpawned, closestPlant = {}, nil, false, 0
 
 local function drawText3Ds(x, y, z, text)
     SetTextScale(0.35, 0.35)
-    SetTextFont(4)
+    SetTextFont(0)
     SetTextProportional(1)
     SetTextColour(255, 255, 255, 215)
     BeginTextCommandDisplayText('STRING')

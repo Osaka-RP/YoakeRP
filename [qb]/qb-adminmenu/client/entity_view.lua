@@ -36,7 +36,7 @@ end
 
 local DrawTitle = function(text)
     SetTextScale(0.50, 0.50)
-    SetTextFont(4)
+    SetTextFont(0)
     SetTextDropshadow(1.0, 0, 0, 0, 255)
     SetTextColour(255, 255, 255, 215)
     SetTextJustification(0)
@@ -217,7 +217,7 @@ local DrawEntityViewText = function(entity)
 
     for k, v in ipairs(data) do
         SetTextScale(0.35, 0.35)
-        SetTextFont(4)
+        SetTextFont(0)
         SetTextDropshadow(1.0, 0, 0, 0, 255)
         SetTextEdge(1, 0, 0, 0, 255)
         SetTextColour(255, 255, 255, 215)
@@ -254,7 +254,7 @@ local DrawEntityViewTextInWorld = function(entity, coords)
         for k, v in ipairs(data) do
             if k ~= 1 and k ~= 2 then
                 SetTextScale(0.25, 0.25)
-                SetTextFont(4)
+                SetTextFont(0)
                 SetTextDropshadow(1.0, 0, 0, 0, 255)
                 SetTextEdge(1, 0, 0, 0, 255)
                 SetTextColour(255, 255, 255, 215)

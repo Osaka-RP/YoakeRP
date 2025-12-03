@@ -269,7 +269,7 @@ RegisterNetEvent("qb-diving:client:SetOxygenLevel", function()
 end)
 
 function DrawText2(text)
-	SetTextFont(4)
+	SetTextFont(0)
 	SetTextProportional(true)
 	SetTextScale(0.0, 0.45)
 	SetTextDropshadow(1, 0, 0, 0, 255)

@@ -37,7 +37,7 @@ function Utils.Markers.drawText3D(x,y,z, text)
 		end
 	else
 		SetTextScale(0.35, 0.35)
-		SetTextFont(4)
+		SetTextFont(0)
 		SetTextProportional(true)
 		SetTextColour(255, 255, 255, 215)
 		BeginTextCommandDisplayText("STRING")

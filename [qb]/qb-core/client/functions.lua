@@ -856,7 +856,7 @@ end
 
 function QBCore.Functions.DrawText(x, y, width, height, scale, r, g, b, a, text)
     -- Use local function instead
-    SetTextFont(4)
+    SetTextFont(0)
     SetTextScale(scale, scale)
     SetTextColour(r, g, b, a)
     BeginTextCommandDisplayText('STRING')
@@ -867,7 +867,7 @@ end
 function QBCore.Functions.DrawText3D(x, y, z, text)
     -- Use local function instead
     SetTextScale(0.35, 0.35)
-    SetTextFont(4)
+    SetTextFont(0)
     SetTextProportional(1)
     SetTextColour(255, 255, 255, 215)
     BeginTextCommandDisplayText('STRING')

@@ -17,7 +17,7 @@ function Draw3DText(coords, str)
 	local scale = 200 / (GetGameplayCamFov() * #(camCoords - coords))
     if onScreen then
         SetTextScale(1.0, 0.5 * scale)
-        SetTextFont(4)
+        SetTextFont(0)
         SetTextColour(255, 255, 255, 255)
         SetTextEdge(2, 0, 0, 0, 150)
 		SetTextProportional(1)

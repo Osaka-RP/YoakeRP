@@ -12,7 +12,7 @@ local allowedStretcherVehicles = {
 
 local function DrawText3Ds(x, y, z, text)
     SetTextScale(0.35, 0.35)
-    SetTextFont(4)
+    SetTextFont(0)
     SetTextProportional(1)
     SetTextColour(255, 255, 255, 215)
     BeginTextCommandDisplayText('STRING')
