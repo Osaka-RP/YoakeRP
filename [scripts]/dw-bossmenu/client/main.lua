@@ -207,29 +207,6 @@ end)
 
 -- Create ONLY interaction points for job management
 function CreateJobTargetPoints()
-    for jobName, _ in pairs(Config.Locations) do
-        if Config.TargetSystem == "qb-target" then
-            exports['qb-target']:RemoveZone("jobmanagement_"..jobName)
-            
-            local i = 1
-            while true do
-                local zoneExists = exports['qb-target']:RemoveZone("jobmanagement_"..jobName.."_"..i)
-                if not zoneExists then
-                    break
-                end
-                i = i + 1
-            end
-        elseif Config.TargetSystem == "ox_target" then
-            exports.ox_target:removeZone("jobmanagement_"..jobName)
-            
-            local i = 1
-            while i <= 10 do 
-                exports.ox_target:removeZone("jobmanagement_"..jobName.."_"..i)
-                i = i + 1
-            end
-        end
-    end
-    
     for jobName, jobData in pairs(Config.Locations) do
         local jobLabel = jobData.label
         
@@ -240,37 +217,7 @@ function CreateJobTargetPoints()
                 zoneName = zoneName.."_"..locationIndex
             end
             
-            if Config.TargetSystem == "qb-target" then
-                exports['qb-target']:AddBoxZone(zoneName, location.coords, location.length, location.width, {
-                    name = zoneName,
-                    heading = location.heading,
-                    debugPoly = false,
-                    minZ = location.minZ,
-                    maxZ = location.maxZ,
-                }, {
-                    options = {
-                        {
-                            type = "client",
-                            event = "dw-bossmenu:client:TriggerOpenManager", 
-                            icon = "fas fa-briefcase",
-                            label = "Manage " .. jobLabel,
-                            job = jobName,
-                            canInteract = function()
-                                if PlayerData.job and PlayerData.job.name == jobName then
-                                    if PlayerData.job.isboss then
-                                        return true
-                                    else
-                                        return true
-                                    end
-                                end
-                                return false
-                            end,
-                            jobData = jobName
-                        },
-                    },
-                    distance = 2.0
-                })
-            elseif Config.TargetSystem == "ox_target" then
+            if Config.TargetSystem == "ox_target" then
                 exports.ox_target:addBoxZone({
                     coords = location.coords,
                     size = {location.length, location.width, location.maxZ - location.minZ},
