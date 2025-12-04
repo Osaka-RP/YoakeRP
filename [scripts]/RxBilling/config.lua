@@ -8,7 +8,7 @@ Config.Locale = 'en'
 
 Config.ReceiveMoney = {
     enabled = true, -- When enabled, money from paid invoices go to the sender/society account
-    deductTax = 0.00, -- Tax percentage that will be deducted from the invoice amount when paid (0.05 = 5%)
+    deductTax = 0, -- Tax percentage that will be deducted from the invoice amount when paid (0.05 = 5%)
 }
 
 Config.PlayerInvoices = { -- Automatic payment is disabled within this feature, so it cannot get abused
@@ -93,6 +93,6 @@ Config.UI = {
 ---@type table Only change these if you have changed the name of a resource
 Resources = {
     FM = { name = 'fmLib', export = 'new' },
-    RX_BANKING = { name = 'RxBanking', export = 'all' },
+    --RX_BANKING = { name = 'RxBanking', export = 'all' },
 }
 IgnoreScriptFoundLogs = false

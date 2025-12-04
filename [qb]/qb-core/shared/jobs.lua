@@ -22,7 +22,7 @@ QBShared.Jobs = {
 			['1'] = { name = 'Officer', payment = 75 },
 			['2'] = { name = 'Sergeant', payment = 100 },
 			['3'] = { name = 'Lieutenant', payment = 125 },
-			['4'] = { name = 'Chief', isboss = true, payment = 150 },
+			['4'] = { name = 'Chief', isboss = true, bankAuth = true, payment = 150 },
 		},
 	},
 	ambulance = {
@@ -35,7 +35,7 @@ QBShared.Jobs = {
 			['1'] = { name = 'Paramedic', payment = 75 },
 			['2'] = { name = 'Doctor', payment = 100 },
 			['3'] = { name = 'Surgeon', payment = 125 },
-			['4'] = { name = 'Chief', isboss = true, payment = 150 },
+			['4'] = { name = 'Chief', isboss = true, bankAuth = true, payment = 150 },
 		},
 	},
 	realestate = {
@@ -84,7 +84,7 @@ QBShared.Jobs = {
 			['1'] = { name = 'Novice', payment = 75 },
 			['2'] = { name = 'Experienced', payment = 100 },
 			['3'] = { name = 'Advanced', payment = 125 },
-			['4'] = { name = 'Manager', isboss = true, payment = 150 },
+			['4'] = { name = 'Manager', isboss = true, bankAuth = true, payment = 150 },
 		},
 	},
 	mechanic2 = {
