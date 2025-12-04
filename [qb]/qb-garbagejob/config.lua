@@ -1,33 +1,37 @@
 Config = {}
 
+Config.Management = false            -- 会社分配を使うなら true
+Config.SocietyAccount = 'garbage'   -- 会社口座キー（Renewed-Bankingの口座名）
+
+
 Config.UseTarget = GetConvar('UseTarget', 'false') == 'true'
 Config.Jobname = 'garbage'
--- Price taken and given back when delivered a truck
+-- トラックの配達時に取得および返還される価格
 Config.TruckPrice = 250
 
--- Want to give out a cryptostick per stop?
+-- 停車ごとに暗号通貨スティックを配布したいですか?
 Config.GiveCryptoStick = true
 
--- Has to roll this number or higher to receive a cryptostick
+-- クリプトスティックを受け取るには、この数字以上を出す必要があります
 Config.CryptoStickChance = 75
 
--- How many stops minimum should the job roll?
-Config.MinStops = 5
+-- ジョブは最低何回停止する必要がありますか?
+Config.MinStops = 1
 
--- Upper worth per bag
-Config.BagUpperWorth = 100
+-- 1袋あたりの上限金額
+Config.BagUpperWorth = 50000
 
--- Lower worth per bag
-Config.BagLowerWorth = 50
+-- バッグあたりの価値が低くなる
+Config.BagLowerWorth = 25000
 
--- Minimum bags per stop
+-- ストップあたりの最小手荷物数
 Config.MinBagsPerStop = 2
 
--- Maximum bags per stop
+--ストップごとの最大手荷物数
 Config.MaxBagsPerStop = 5
 
--- WIP: Do not use
--- If you want to use custom routes instead of random amount of stops stops set to true
+-- WIP: 使用しないでください
+-- true に設定されたランダムな停留所の数の代わりにカスタム ルートを使用する場合
 Config.UsePreconfiguredRoutes = false
 
 Config.Peds = {

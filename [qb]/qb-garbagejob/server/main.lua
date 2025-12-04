@@ -101,31 +101,108 @@ QBCore.Functions.CreateCallback('qb-garbagejob:server:EndShift', function(source
 end)
 
 RegisterNetEvent('qb-garbagejob:server:PayShift', function(continue)
-    local src = source
-    local Player = QBCore.Functions.GetPlayer(src)
+    local src    = source
+    local Player = QBCore.Functions.GetPlayer(src); if not Player then return end
     local CitizenId = Player.PlayerData.citizenid
-    if Routes[CitizenId] ~= nil then
-        local depositPay = Routes[CitizenId].depositPay
-        if tonumber(Routes[CitizenId].stopsCompleted) < tonumber(Routes[CitizenId].totalNumberOfStops) then
-            depositPay = 0
-            TriggerClientEvent('QBCore:Notify', src, Lang:t('error.early_finish', { completed = Routes[CitizenId].stopsCompleted, total = Routes[CitizenId].totalNumberOfStops }), 'error')
-        end
-        if continue then
-            depositPay = 0
-        end
-        local totalToPay = depositPay + Routes[CitizenId].actualPay
-        local payoutDeposit = Lang:t('info.payout_deposit', { value = depositPay })
-        if depositPay == 0 then
-            payoutDeposit = ''
-        end
 
-        Player.Functions.AddMoney('bank', totalToPay, 'garbage-payslip')
-        TriggerClientEvent('QBCore:Notify', src, Lang:t('success.pay_slip', { total = totalToPay, deposit = payoutDeposit }), 'success')
-        Routes[CitizenId] = nil
-    else
-        TriggerClientEvent('QBCore:Notify', source, Lang:t('error.never_clocked_on'), 'error')
+    if not Routes[CitizenId] then
+        TriggerClientEvent('QBCore:Notify', src, Lang:t('error.never_clocked_on'), 'error')
+        return
     end
+
+    local depositPay = Routes[CitizenId].depositPay or 0
+    if tonumber(Routes[CitizenId].stopsCompleted) < tonumber(Routes[CitizenId].totalNumberOfStops) then
+        depositPay = 0
+        TriggerClientEvent('QBCore:Notify', src, Lang:t('error.early_finish', {
+            completed = Routes[CitizenId].stopsCompleted,
+            total     = Routes[CitizenId].totalNumberOfStops
+        }), 'error')
+    end
+    if continue then depositPay = 0 end
+
+    local totalToPay = math.max(0, math.floor((Routes[CitizenId].actualPay or 0) + depositPay))
+    local payoutDeposit = (depositPay > 0) and Lang:t('info.payout_deposit', { value = depositPay }) or ''
+
+    -- 表示名（会社明細メモ用）
+    local pname = GetPlayerName(src) or (Player.PlayerData.charinfo and (Player.PlayerData.charinfo.firstname .. ' ' .. Player.PlayerData.charinfo.lastname)) or ('Player '..tostring(src))
+
+    if Config.Management then
+        -- ============ 会社:個人 = 50:50 ============
+        local half = math.floor(totalToPay / 2)
+        local company = Config.SocietyAccount or 'garbage'
+
+        -- ① 会社口座に50%（Renewed-Banking）
+        pcall(function()
+            exports['Renewed-Banking']:addAccountMoney(company, half, 'Garbage payout share (50%)')
+        end)
+
+        -- 会社取引明細（あれば）
+        pcall(function()
+            if exports['Renewed-Banking'].handleTransaction then
+                exports['Renewed-Banking']:handleTransaction(
+                    company,
+                    'Sanitation Company',
+                    half,
+                    ('Payout from %s (%s)'):format(pname, CitizenId),
+                    company,        -- issuer
+                    CitizenId,      -- receiver
+                    'deposit'
+                )
+            end
+        end)
+
+        -- ② プレイヤーに50%（従来のQB銀行を使うパターン）
+        Player.Functions.AddMoney('bank', half, 'garbage-payslip (50%)')
+
+        -- 個人明細（Renewed-Banking・個人口座キー=CitizenId を想定）
+        pcall(function()
+            if exports['Renewed-Banking'].handleTransaction then
+                exports['Renewed-Banking']:handleTransaction(
+                    CitizenId,
+                    ('Personal Account / %s'):format(CitizenId),
+                    half,
+                    'Garbage payout (50%)',
+                    company,        -- issuer（会社）
+                    CitizenId,      -- receiver（本人）
+                    'deposit'
+                )
+            end
+        end)
+
+        -- 完了通知
+        TriggerClientEvent('QBCore:Notify', src, Lang:t('success.pay_slip', {
+            total   = totalToPay,
+            deposit = payoutDeposit
+        }), 'success')
+
+    else
+        -- ============ Management=false: 全額プレイヤー ============
+        Player.Functions.AddMoney('bank', totalToPay, 'garbage-payslip')
+
+        -- 個人明細（Renewed-Banking側にも履歴を残したい場合）
+        pcall(function()
+            if exports['Renewed-Banking'].handleTransaction then
+                exports['Renewed-Banking']:handleTransaction(
+                    CitizenId,
+                    ('Personal Account / %s'):format(CitizenId),
+                    totalToPay,
+                    'Garbage job payslip',
+                    'garbage',      -- issuer（任意ラベル）
+                    CitizenId,      -- receiver
+                    'deposit'
+                )
+            end
+        end)
+
+        TriggerClientEvent('QBCore:Notify', src, Lang:t('success.pay_slip', {
+            total   = totalToPay,
+            deposit = payoutDeposit
+        }), 'success')
+    end
+
+    Routes[CitizenId] = nil
 end)
+
 
 QBCore.Commands.Add('cleargarbroutes', 'Removes garbo routes for user (admin only)', { { name = 'id', help = 'Player ID (may be empty)' } }, false, function(source, args)
     local Player = QBCore.Functions.GetPlayer(tonumber(args[1]))
