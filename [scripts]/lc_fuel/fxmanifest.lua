@@ -43,7 +43,7 @@ files {
 }
 
 dependency "lc_utils"
-provides 'LegacyFuel'
+provides 'lc_fuel'
 
 data_file 'DLC_ITYP_REQUEST' 'stream/prop_electric_01.ytyp'
 data_file 'DLC_ITYP_REQUEST' 'stream/prop_eletricpistol.ytyp'

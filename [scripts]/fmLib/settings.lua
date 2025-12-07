@@ -75,7 +75,7 @@ Resources = {
 
     -- Fuel Systems
     OXFUEL = { name = 'ox_fuel', export = false },
-    LEGACYFUEL = { name = 'LegacyFuel', export = 'all' },
+    lc_fuel = { name = 'lc_fuel', export = 'all' },
     CDN_FUEL = { name = 'cdn-fuel', export = 'all' },
     RENEWED_FUEL = { name = 'renewed-fuel', export = 'all' },
     QBFUEL = { name = 'qb-fuel', export = 'all' },

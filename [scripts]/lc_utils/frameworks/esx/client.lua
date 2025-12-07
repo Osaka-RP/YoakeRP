@@ -79,8 +79,8 @@ function Utils.Framework.setVehicleFuel(vehicle, plate, model, fuel)
 		exports['esx-sna-fuel']:SetFuel(vehicle, fuel)
 	elseif Config.custom_scripts_compatibility.fuel == "cdn-fuel" then
 		error("cdn-fuel not available for ESX")
-	elseif Config.custom_scripts_compatibility.fuel == "LegacyFuel" then
-		exports['LegacyFuel']:SetFuel(vehicle, fuel)
+	elseif Config.custom_scripts_compatibility.fuel == "lc_fuel" then
+		exports['lc_fuel']:SetFuel(vehicle, fuel)
 	elseif Config.custom_scripts_compatibility.fuel == "okokGasStation" then
 		exports['okokGasStation']:SetFuel(vehicle, fuel)
 	elseif Config.custom_scripts_compatibility.fuel == "default" then

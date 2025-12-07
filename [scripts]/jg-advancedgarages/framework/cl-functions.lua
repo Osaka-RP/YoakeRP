@@ -291,7 +291,7 @@ end
 function Framework.Client.VehicleGetFuel(vehicle)
   if not DoesEntityExist(vehicle) then return 0 end
 
-  if (Config.FuelSystem == "LegacyFuel" or Config.FuelSystem == "ps-fuel" or Config.FuelSystem == "lj-fuel" or Config.FuelSystem == "cdn-fuel" or Config.FuelSystem == "hyon_gas_station" or Config.FuelSystem == "okokGasStation" or Config.FuelSystem == "nd_fuel" or Config.FuelSystem == "myFuel") then
+  if (Config.FuelSystem == "lc_fuel" or Config.FuelSystem == "ps-fuel" or Config.FuelSystem == "lj-fuel" or Config.FuelSystem == "cdn-fuel" or Config.FuelSystem == "hyon_gas_station" or Config.FuelSystem == "okokGasStation" or Config.FuelSystem == "nd_fuel" or Config.FuelSystem == "myFuel") then
     return exports[Config.FuelSystem]:GetFuel(vehicle)
   elseif Config.FuelSystem == "ti_fuel" then
     local level, type = exports["ti_fuel"]:getFuel(vehicle)
@@ -311,7 +311,7 @@ end
 function Framework.Client.VehicleSetFuel(vehicle, fuel)
   if not DoesEntityExist(vehicle) then return false end
 
-  if (Config.FuelSystem == "LegacyFuel" or Config.FuelSystem == "ps-fuel" or Config.FuelSystem == "lj-fuel" or Config.FuelSystem == "cdn-fuel" or Config.FuelSystem == "hyon_gas_station" or Config.FuelSystem == "okokGasStation" or Config.FuelSystem == "nd_fuel" or Config.FuelSystem == "myFuel" or Config.FuelSystem == "Renewed-Fuel") then
+  if (Config.FuelSystem == "lc_fuel" or Config.FuelSystem == "ps-fuel" or Config.FuelSystem == "lj-fuel" or Config.FuelSystem == "cdn-fuel" or Config.FuelSystem == "hyon_gas_station" or Config.FuelSystem == "okokGasStation" or Config.FuelSystem == "nd_fuel" or Config.FuelSystem == "myFuel" or Config.FuelSystem == "Renewed-Fuel") then
     exports[Config.FuelSystem]:SetFuel(vehicle, fuel)
   elseif Config.FuelSystem == "ti_fuel" then
     local fuelType = lib.callback.await("jg-advancedgarages:server:get-ti-fuel-type", false, Framework.Client.GetPlate(vehicle))

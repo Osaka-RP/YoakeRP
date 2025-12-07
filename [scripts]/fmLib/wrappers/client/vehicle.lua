@@ -110,8 +110,8 @@ function FM.vehicle.setFuel(vehicle, fuelLvl)
 
     if OXFUEL then
         Entity(vehicle).state.fuel = fuelLvl
-    elseif LEGACYFUEL then
-        LEGACYFUEL:SetFuel(vehicle, fuelLvl)
+    elseif lc_fuel then
+        lc_fuel:SetFuel(vehicle, fuelLvl)
     elseif CDN_FUEL then
         CDN_FUEL:SetFuel(vehicle, fuelLvl)
     elseif RENEWED_FUEL then
